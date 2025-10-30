@@ -21,6 +21,12 @@ import robocode.*;
 		    setScanColor(Color.RED);
 	        setBulletColor(Color.ORANGE);
 		    }
+
+
+		//Obtém as dimensões do campo de batalha.
+			getBattleFieldWidth() 
+			getBattleFieldHeight()
+			}
 			
 	    // Mantém o radar se movendo independentemente do canhão
 			setAdjustRadarForGunTurn(true);
@@ -37,7 +43,7 @@ import robocode.*;
 			ahead(100);
 			turnGunRight(360);
 			back(100);
-			turnGunRight(360);
+			turnLeft(360);
 			}
 		
 		// Quando detectar um robô inimigo
@@ -52,6 +58,10 @@ import robocode.*;
 		   double absoluteBearing = getHeadingRadians() + e.getBearingRadians();
 		   double gunTurn = robocode.util.Utils.normalRelativeAngle(absoluteBearing - getGunHeadingRadians());
 		   setTurnGunRightRadians(gunTurn);
+			}
+
+		//Giram o canhão, independente do veículo
+			turnGunRight(double degree) / turnGunLeft(double degree)
 			}
 		
 		// Disparar com potência proporcional à proximidade
@@ -91,16 +101,15 @@ import robocode.*;
 			}
 
 		// O que fazer ao ser atingido por uma bala
-			public void onHitByBullet(HitByBulletEvent {
-				
-		// Replace the next line with any behavior you would like
-					back(10);
+			public void onHitByBullet(HitByBulletEvent e){
+			back(10);
 
 				
 				}
 			}
 		}
 	}	
+
 
 
 
