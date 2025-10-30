@@ -99,16 +99,12 @@ import robocode.*;
 			back(50);
 			turnRight(90);
 			}
-
-		// O que fazer ao ser atingido por uma bala
-			public void onHitByBullet(HitByBulletEvent e){
-			back(10);
-
-				
-				}
+		
 			}
 		}
-	}	
+	}
+}	
+
 
 
 
