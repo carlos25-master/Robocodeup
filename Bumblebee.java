@@ -20,16 +20,19 @@ import robocode.*;
 		    setRadarColor(Color.YELLOW);
 		    setScanColor(Color.RED);
 	        setBulletColor(Color.ORANGE);
-
+		    }
+			
 	    // Mantém o radar se movendo independentemente do canhão
 			setAdjustRadarForGunTurn(true);
 			setAdjustGunForRobotTurn(true);
-	
+	        }
+		
 		// Gira o radar indefinidamente
 			while (true) {
 			setTurnRadarRight(360);
 			execute();
-						
+			}
+				
 		// Movimentos principais do Robô
 			ahead(100);
 			turnGunRight(360);
@@ -39,7 +42,8 @@ import robocode.*;
 		
 		// Quando detectar um robô inimigo
 			public void onScannedRobot(ScannedRobotEvent e) {
-														   
+			}
+				
 	    // Calcular a distância ao inimigo
 			double distance = e.getDistance();
 			}
@@ -92,5 +96,6 @@ import robocode.*;
 			}
 		}
 	}	
+
 
 
