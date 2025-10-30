@@ -60,9 +60,8 @@ import robocode.*;
 		  setFire(firePower);
 		  	}
 
-		// Movimento lateral para dificultar ser atingido
-			setTurnRight(e.getBearing() + 90 - 15);
-			setAhead(100);
+		// Método executado quando o robô é atingido por um disparo
+			onHitByBullet(HitByBulletEvent e){
 		  	}
 
 		// Movimento lateral para dificultar ser atingido
@@ -80,6 +79,10 @@ import robocode.*;
 			back(50);
 			turnRight(30);
 			}
+
+		//Método executado quando o robô colide com outro robô.
+           public voidonHitRobot(HitRobotEvent e){
+		  	}
 		
 		// Quando bater na parede
 			public void onHitWall(HitWallEvent e) {
@@ -96,6 +99,7 @@ import robocode.*;
 			}
 		}
 	}	
+
 
 
 
