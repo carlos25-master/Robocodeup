@@ -23,27 +23,29 @@ import robocode.*;
 		    }
 
 
-		//Obtém as dimensões do campo de batalha.
-			getBattleFieldWidth() 
-			getBattleFieldHeight()
-			}
-			
-	    // Mantém o radar se movendo independentemente do canhão
-			setAdjustRadarForGunTurn(true);
-			setAdjustGunForRobotTurn(true);
-	        }
-		
-		// Gira o radar indefinidamente
-			while (true) {
-			setTurnRadarRight(360);
-			execute();
-			}
-				
-		// Movimentos principais do Robô
-			ahead(100);
-			turnGunRight(360);
-			back(100);
-			turnLeft(360);
+			peek = false;
+	turnLeft(getHeading() % 90);
+	ahead(moveAmount);
+    // Configurações para movimentação independente
+    setAdjustGunForRobotTurn(true);
+    setAdjustRadarForGunTurn(true);
+
+    // Radar inicialmente gira indefinidamente para encontrar inimigos
+    setTurnRadarRight(Double.POSITIVE_INFINITY);
+	moveAmount = Math.max(getBattleFieldWidth(), getBattleFieldHeight());
+    // Loop principal
+    while (true) {
+        	// Look before we turn when ahead() completes.
+			peek = true;
+			// Move up the wall
+			ahead(moveAmount);
+			// Don't look now
+			peek = false;
+			// Turn to the next wall
+			turnRight(90);
+
+        // Execute ações pendentes
+        execute();
 			}
 		
 		// Quando detectar um robô inimigo
