@@ -48,7 +48,71 @@ import robocode.*;
 		
 		// Quando detectar um robô inimigo
 			public void onScannedRobot(ScannedRobotEvent e) {
-			}
+    // Trava radar no inimigo para manter "sniper lock"
+    double radarTurn = getHeading() + e.getBearing() - getRadarHeading();
+    setTurnRadarRight(Utils.normalRelativeAngleDegrees(radarTurn));
+
+    lastScanned = e.getName();
+
+    // Calcule posição do inimigo relativamente ao campo
+    double absoluteBearing = Math.toRadians((getHeading() + e.getBearing()));
+    double enemyX = getX() + Math.sin(absoluteBearing) * e.getDistance();
+    double enemyY = getY() + Math.cos(absoluteBearing) * e.getDistance();
+
+    // Estimativa linear: assume que o inimigo mantém heading e velocity
+    double enemyHeading = Math.toRadians(e.getHeading());
+    double enemyVelocity = e.getVelocity();
+
+    // Escolha potência do tiro baseada na distância
+    double firePower = Math.min(3.0, Math.max(0.4, 500.0 / e.getDistance()));
+    double bulletSpeed = 20 - 3 * firePower; // fórmula do Robocode
+
+    // Prever o tempo que a bala levará
+    double deltaX = enemyX - getX();
+    double deltaY = enemyY - getY();
+    double distance = Math.hypot(deltaX, deltaY);
+
+    double time = 0;
+    double predictedX = enemyX;
+    double predictedY = enemyY;
+
+    // Iterativo para previsão (resolver interseção posição-bala)
+    for (int i = 0; i < 20; i++) {
+        time = distance / bulletSpeed;
+        predictedX = enemyX + Math.sin(enemyHeading) * enemyVelocity * time;
+        predictedY = enemyY + Math.cos(enemyHeading) * enemyVelocity * time;
+
+        // Ajusta para limites do campo
+        predictedX = Math.max(Math.min(predictedX, getBattleFieldWidth() - 18), 18);
+        predictedY = Math.max(Math.min(predictedY, getBattleFieldHeight() - 18), 18);
+
+        deltaX = predictedX - getX();
+        deltaY = predictedY - getY();
+        distance = Math.hypot(deltaX, deltaY);
+        // Atualiza tempo para próxima iteração
+        bulletSpeed = 20 - 3 * firePower;
+    }
+
+    // Calcula ângulo para mirar
+    double aimAngle = Math.toDegrees(Math.atan2(predictedX - getX(), predictedY - getY()));
+    double gunTurn = Utils.normalRelativeAngleDegrees(aimAngle - getGunHeading());
+
+    setTurnGunRight(gunTurn);
+
+    // Dispara quando a mira estiver razoavelmente alinhada
+    if (Math.abs(getGunTurnRemaining()) < 10) {
+        if (getEnergy() > firePower + 0.2) {
+            setFire(firePower);
+        }
+    }
+
+    // Mantém movimentação independente — se o inimigo se aproxima muito, tente esquivar
+    if (e.getDistance() < 150) {
+        // faça uma evasão curta
+        direction *= -1;
+        setAhead(150 * direction);
+    }
+}
 				
 	    // Calcular a distância ao inimigo
 			double distance = e.getDistance();
