@@ -90,9 +90,12 @@ import robocode.*;
 			turnRight(30);
 			}
 
-		//Método executado quando o robô colide com outro robô.
-           public voidonHitRobot(HitRobotEvent e){
-		  	}
+public void onHitRobot(HitRobotEvent e) {
+    // Se colidir com inimigo, dê ré e vire para não ficar preso; não atira por colisão
+    if (e.isMyFault()) {
+        setBack(50);
+        direction *= -1;
+    }
 		
 		// Quando bater na parede
 			public void onHitWall(HitWallEvent e) {
