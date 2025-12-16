@@ -15,11 +15,11 @@ import robocode.*;
 		public void run() {
 			
 	      // Cores do robô
-	        setBodyColor(Color.YELLOW);
-		    setGunColor(Color.BLACK);
-		    setRadarColor(Color.YELLOW);
-		    setScanColor(Color.RED);
-	        setBulletColor(Color.ORANGE);
+		setBodyColor(Color.black);
+		setGunColor(Color.black);
+		setRadarColor(Color.black);
+		setBulletColor(Color.black);
+		setScanColor(Color.black);
 		    }
 
 
