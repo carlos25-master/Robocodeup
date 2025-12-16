@@ -75,7 +75,7 @@ import robocode.*;
 		  	}
 
 		// Movimento lateral para dificultar ser atingido
-			setTurnRight(e.getBearing() + 90 - 15);
+			setTurnRight(e.getBearing() + 90 - 15);{
 			setAhead(100);
 		 	}
 		
@@ -95,12 +95,14 @@ public void onHitRobot(HitRobotEvent e) {
     if (e.isMyFault()) {
         setBack(50);
         direction *= -1;
-    }
+    }}
 		
 		// Quando bater na parede
-			public void onHitWall(HitWallEvent e) {
-			back(50);
-			turnRight(90);
+public void onHitWall(HitWallEvent e) {
+    // Ao bater no muro inverte a direção e recua um pouco
+    direction *= -1;
+    setBack(wallMargin);
+	setTurnRadarRight(360);
 			}
 		
 			}
